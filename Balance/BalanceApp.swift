@@ -11,7 +11,8 @@ import SwiftUI
 struct BalanceApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            lanuch()
+//            lanuch() // Start with the Splash view
         }
     }
 }
