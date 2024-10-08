@@ -153,54 +153,75 @@ struct SpendingsView: View {
     @State private var spendings = ""
 
     var body: some View {
-        VStack {
-            Image(systemName: "fork.knife.circle.fill")
-                .resizable()
-                .frame(width: 75, height: 75)
-                .foregroundColor(Color.blue)
-
-            Text("Enter your spendings for \(selectedCategory)")
-                .font(.title)
-                .fontWeight(.bold)
-
-            VStack(spacing: 20) {
-                TextField("Enter spendings", text: $spendings)
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-
-                TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "SR"))
-                    .keyboardType(.decimalPad)
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-            }
-
-            HStack(spacing: 40) {
-                Button("Cancel") {
-                    onDismiss()
+        ZStack (alignment: .bottom){
+                Color.black
+                    .opacity(0.3)
+                    .ignoresSafeArea()
+            
+            VStack(spacing: 45) {
+                VStack( spacing: 25) {
+                    Image(systemName: "fork.knife.circle.fill") // make this dynamic
+                        .resizable()
+                        .frame(width: 75, height: 75)
+                        .foregroundColor(Color.blue)
+                    Text("Enter your spedings")
+                        .font(.system(size: 27))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color(red: 3 / 255, green: 40 / 255, blue: 67 / 255))
                 }
-                .foregroundColor(.blue)
-                .frame(width: 118, height: 45)
-                .background(RoundedRectangle(cornerRadius: 8).fill(.white))
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.blue, lineWidth: 2))
 
-                Button("Update") {
-                    amounts[selectedCategory, default: 0] += checkAmount
-                    onDismiss()
+                VStack(spacing: 20) {
+                    TextField("Enter spendings", text: $spendings)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+
+                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "SR"))
+                        .keyboardType(.decimalPad)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
                 }
-                .foregroundColor(.white)
-                .frame(width: 118, height: 45)
-                .background(RoundedRectangle(cornerRadius: 8).fill(.blue))
+
+                HStack(spacing: 40) {
+                    Button("Cancel") {
+                        withAnimation{
+                            onDismiss()
+                        }
+                    }
+                    .foregroundColor(.blue)
+                    .frame(width: 118, height: 45)
+                    .background(RoundedRectangle(cornerRadius: 8).fill(.white))
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.blue, lineWidth: 2))
+
+                    Spacer()
+                    
+                    Button("Update") {
+                        amounts[selectedCategory, default: 0] += checkAmount
+                        onDismiss()
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: 118, height: 45)
+                    .background(RoundedRectangle(cornerRadius: 8).fill(.blue))
+                }
+                
+                .padding(.top)
             }
-            .padding(.top)
+            .padding()
+            .ignoresSafeArea()
+            .frame(height: 650)
+            .cornerRadius(15)
+            .transition(.move(edge: .bottom))
+            .background(
+                ZStack{
+                    RoundedRectangle(cornerRadius: 30)
+                    Rectangle()
+                        .frame(height: 650 / 2)
+                }.foregroundColor(.white)
+            )
+            .padding(.bottom, -50)
+            
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(15)
-        .shadow(radius: 20)
-        .padding(.horizontal)
-        .transition(.move(edge: .bottom))
     }
 }
 
